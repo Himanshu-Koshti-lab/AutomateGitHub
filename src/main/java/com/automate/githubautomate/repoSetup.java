@@ -19,9 +19,9 @@ public class repoSetup {
 
         List<String> name = List.of(repoName.split(","));
 
-        repoName = name.get(0).replace(".git","");
+        repoName = name.get(0).replace(".git", "");
 
-        String[] command = {"git", "clone", };
+        String[] command = {"git", "clone",};
         ProcessCommand(command, "");
 
         String[] checkBranch = {"git", "branch", "-a"};
