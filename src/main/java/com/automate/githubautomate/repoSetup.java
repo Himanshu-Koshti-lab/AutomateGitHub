@@ -1,6 +1,8 @@
 package com.automate.githubautomate;
 
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +23,7 @@ public class repoSetup {
 
         repoName = name.get(0).replace(".git", "");
 
-        String[] command = {"git", "clone",};
+        String[] command = {"git", "clone", repo};
         ProcessCommand(command, "");
 
         String[] checkBranch = {"git", "branch", "-a"};
@@ -48,7 +50,21 @@ public class repoSetup {
 
         String[] PushBranch = {"git", "push", "origin", "dev"};
         ProcessCommand(PushBranch, repoName);
+
+        try {
+            FileUtils.deleteDirectory(new File("E:\\" + repoName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (new File("E:\\" + repoName).exists()) {
+            System.out.println("Folder not delete.");
+        }else {
+            System.out.println("Folder deleted successfully.");
+        }
     }
+
+
 
     private static void ProcessCommand(String[] command, String string) {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
@@ -58,9 +74,7 @@ public class repoSetup {
             process = processBuilder.start();
             process.waitFor();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
